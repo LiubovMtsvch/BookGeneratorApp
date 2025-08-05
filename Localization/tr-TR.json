@@ -1,0 +1,83 @@
+﻿{
+  "Genres": [
+    "Tarihî kurgu",
+    "Dram",
+    "Romantik",
+    "Gerilim",
+    "Fantastik",
+    "Bilim kurgu",
+    "Gizem",
+    "Korku",
+    "Macera",
+    "Deneme"
+  ],
+
+
+  "Titles": [
+    "Rüzgarın İzinde",
+    "Sessiz Kalpler",
+    "İstanbul Günlüğü",
+    "Geceye Yolculuk",
+    "Zamanın Ötesinde",
+    "Unutulmuş Hikâyeler",
+    "Camın Ardındaki Dünya",
+    "Kelimelerin Gölgesinde",
+    "Yarım Kalan Hayaller",
+    "Karanlıkta Bir Işık"
+  ],
+  "FirstNames": [
+    "Mehmet",
+    "Zeynep",
+    "Ahmet",
+    "Elif",
+    "Can",
+    "Ayşe",
+    "Kemal",
+    "Derya",
+    "Emre",
+    "Fatma"
+  ],
+  "LastNames": [
+    "Yılmaz",
+    "Kaya",
+    "Demir",
+    "Şahin",
+    "Çelik",
+    "Aydın",
+    "Koç",
+    "Öztürk",
+    "Arslan",
+    "Bozkurt"
+  ],
+  "Publishers": [
+    "Anadolu Yayınları",
+    "Kitap Evi",
+    "Hayal Basım",
+    "Sözlük Yayıncılık",
+    "Güneş Kitabevi",
+    "Mavi Kalem",
+    "Köprü Yayınları",
+    "Derin Düşler",
+    "Emil Yayınları",
+    "Efsane Kitaplar"
+  ],
+  "ReviewComments": [
+    "Sürükleyici bir anlatım.",
+    "Yazarın dili çok etkileyici.",
+    "Sayfaları soluksuz okudum.",
+    "Kurgusu çok başarılı.",
+    "Karakterler çok gerçekçi.",
+    "Yürek burkan bir hikâye.",
+    "Duygusal yönü çok güçlü.",
+    "Türk edebiyatına değer katan bir eser.",
+    "Sonu oldukça şaşırtıcıydı.",
+    "Okuduktan sonra uzun süre etkisinden çıkamadım."
+  ],
+  "CoverBackgrounds": [
+    "old-manuscript",
+    "sunset-over-bosphorus",
+    "minimal-leaves",
+    "dark-wood-table",
+    "clouds-and-calligraphy"
+  ]
+}

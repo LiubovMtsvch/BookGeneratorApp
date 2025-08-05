@@ -1,0 +1,79 @@
+﻿{
+  "Genres": [
+    "Ficción histórica",
+    "Drama",
+    "Romántico",
+    "Suspenso",
+    "Fantasía",
+    "Ciencia ficción",
+    "Misterio"
+  ],
+
+  "Titles": [
+    "El eco del silencio",
+    "Sombras de Granada",
+    "La memoria de los árboles",
+    "Caminos invisibles",
+    "Viento del norte",
+    "La última página",
+    "Versos perdidos",
+    "Cartas desde Sevilla",
+    "El arte de callar",
+    "Historias al amanecer"
+  ],
+  "FirstNames": [
+    "Carlos",
+    "María",
+    "Luis",
+    "Lucía",
+    "Javier",
+    "Isabel",
+    "Manuel",
+    "Ana",
+    "Pedro",
+    "Sofía"
+  ],
+  "LastNames": [
+    "García",
+    "Martínez",
+    "Fernández",
+    "López",
+    "Sánchez",
+    "Ramírez",
+    "Torres",
+    "Castillo",
+    "Morales",
+    "Vega"
+  ],
+  "Publishers": [
+    "Editorial Sol",
+    "Libros del Alba",
+    "Casa de Letras",
+    "Narrativa Ibérica",
+    "Ediciones Bruma",
+    "Lecturas Mediterráneas",
+    "Ríos de Tinta",
+    "Imprenta del Sur",
+    "Palabra Abierta",
+    "Historias del Oeste"
+  ],
+  "ReviewComments": [
+    "Una lectura que atrapa desde la primera página.",
+    "Narrativa profunda y emotiva.",
+    "Personajes muy bien desarrollados.",
+    "Final sorprendente y conmovedor.",
+    "Me encantó el estilo del autor.",
+    "Lectura ligera pero interesante.",
+    "Un libro que merece ser leído.",
+    "Ideal para los amantes del drama.",
+    "Suspenso bien logrado.",
+    "Una historia que te hace pensar."
+  ],
+  "CoverBackgrounds": [
+    "papel-antiguo",
+    "atardecer-muralla",
+    "libros-apilados",
+    "mesa-madera-oscura",
+    "hojas-en-viento"
+  ]
+}

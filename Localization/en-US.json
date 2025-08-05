@@ -1,0 +1,82 @@
+{
+  "Genres": [
+    "Historical Fiction",
+    "Drama",
+    "Romance",
+    "Thriller",
+    "Fantasy",
+    "Science Fiction",
+    "Mystery",
+    "Horror",
+    "Adventure",
+    "Non-Fiction"
+  ],
+
+  "Titles": [
+    "Echoes in the Fog",
+    "The Midnight Manuscript",
+    "Voices from Yesterday",
+    "Whispers Between Pages",
+    "The Clockmaker's Legacy",
+    "Fragments of Tomorrow",
+    "The Library Beneath",
+    "Shadows in the Attic",
+    "Letters from Nowhere",
+    "The End of August"
+  ],
+  "FirstNames": [
+    "James",
+    "Emily",
+    "Michael",
+    "Sarah",
+    "David",
+    "Ashley",
+    "Christopher",
+    "Megan",
+    "Joshua",
+    "Laura"
+  ],
+  "LastNames": [
+    "Johnson",
+    "Smith",
+    "Anderson",
+    "Brown",
+    "Taylor",
+    "Harris",
+    "Robinson",
+    "Clark",
+    "Lewis",
+    "Walker"
+  ],
+  "Publishers": [
+    "Blue Ridge Publishing",
+    "Willow House Books",
+    "Summit & Co.",
+    "Sagebrush Press",
+    "Golden Ink Media",
+    "Eastwood Publishing",
+    "Timberline Editions",
+    "Beacon Words",
+    "Maple & Sons",
+    "Inkspire Books"
+  ],
+  "ReviewComments": [
+    "An absolute page-turner.",
+    "Rich characters and powerful storytelling.",
+    "I couldn’t put it down!",
+    "Unexpected plot twists throughout.",
+    "Beautifully written and deeply emotional.",
+    "A must-read for fans of drama.",
+    "Captivating from start to finish.",
+    "The writing style is fresh and engaging.",
+    "Left me thinking long after I finished.",
+    "Perfect for a weekend binge-read."
+  ],
+  "CoverBackgrounds": [
+    "oak-desk-vignette",
+    "vintage-sunset-fade",
+    "abstract-brush-texture",
+    "clouds-over-skyline",
+    "warm-paper-glow"
+  ]
+}
