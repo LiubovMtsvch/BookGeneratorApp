@@ -1,4 +1,30 @@
 {
+  "TitleTemplates": [
+    "{Adjective} {Noun}",
+    "The {Noun} Chronicles",
+    "A Tale of {Noun}",
+    "In the Shadow of {Noun}",
+    "{Noun} and the Unknown"
+  ],
+  "TitleAdjectives": [
+    "Forgotten",
+    "Silent",
+    "Hidden",
+    "Last",
+    "Lonely",
+    "Shattered",
+    "Burning"
+  ],
+  "TitleNouns": [
+    "Dreams",
+    "Voices",
+    "Empire",
+    "Forest",
+    "Secrets",
+    "Path",
+    "Stars"
+  ],
+
   "Genres": [
     "Historical Fiction",
     "Drama",

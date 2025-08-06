@@ -1,10 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Book generator</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>📚 Book Generator</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
         body {
@@ -13,37 +16,88 @@
         }
 
         .controls label {
-            margin-right: 10px;
+            margin-right: 15px;
         }
 
-        td a.row-trigger {
+        .row-trigger {
             display: block;
             width: 100%;
             height: 100%;
             color: inherit;
             text-decoration: none;
-            padding: 8px;
+            padding: 6px 8px;
         }
 
-            td a.row-trigger:hover {
+            .row-trigger:hover {
                 background-color: #e9f5ff;
                 cursor: pointer;
             }
 
         .details-row {
             display: none;
-            background-color: #f9f9f9;
+            background-color: #f8f9fa;
+        }
+
+        .details-container {
+            padding: 10px;
+        }
+
+        .review {
+            border-left: 4px solid #0d6efd;
+            padding-left: 10px;
+            margin-bottom: 12px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+            .review em {
+                font-weight: bold;
+            }
+
+            .review small {
+                color: #6c757d;
+                margin-left: 5px;
+            }
+
+        .rating {
+            margin-top: 5px;
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        .no-reviews {
+            color: #6c757d;
+            font-style: italic;
+        }
+
+        .table-scroll {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        thead th {
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            z-index: 1;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        #scroll-trigger {
+            height: 1px;
         }
     </style>
 </head>
 <body>
-    <h1>📚 Book generator</h1>
+    <h1>📚 Book Generator</h1>
 
-    <div class="controls mb-3">
+    <div class="controls mb-4">
         <label>
             Language:
-            <select id="region">
-                <option value="es-ES">Espanol</option>
+            <select id="region" class="form-select d-inline w-auto">
+                <option value="es-ES">Español</option>
                 <option value="tr-TR">Türkçe</option>
                 <option value="en-US">English</option>
             </select>
@@ -51,85 +105,138 @@
 
         <label>
             Seed:
-            <input type="text" id="seed" value="HELLO">
+            <input type="text" id="seed" class="form-control d-inline w-auto" value="HELLO" />
         </label>
 
         <label>
             Likes Avg:
-            <input type="number" id="likesAvg" value="5" step="0.1">
+            <input type="number" id="likesAvg" class="form-control d-inline w-auto" value="5" step="0.1" />
         </label>
 
         <label>
             Reviews Avg:
-            <input type="number" id="reviewsAvg" value="1" step="0.1">
+            <input type="number" id="reviewsAvg" class="form-control d-inline w-auto" value="1" step="0.1" />
         </label>
 
-        <button class="btn btn-primary" onclick="loadBooks()">Generate</button>
+        <button id="generateBtn" class="btn btn-primary ms-3">
+            <i class="fa-solid fa-bolt"></i> Generate
+        </button>
     </div>
 
     <div id="results"></div>
 
     <script>
+        let currentPage = 1;
+        let isLoading = false;
+
         async function loadBooks() {
+            if (isLoading) return;
+            isLoading = true;
+
             const region = document.getElementById('region').value;
             const seed = document.getElementById('seed').value;
             const likesAvg = document.getElementById('likesAvg').value;
             const reviewsAvg = document.getElementById('reviewsAvg').value;
 
-            const url = `https://localhost:7005/api/Books?seed=${seed}&region=${region}&page=1&likesAvg=${likesAvg}&reviewsAvg=${reviewsAvg}`;
+            const url = `https://localhost:7005/api/Books?seed=${seed}&region=${region}&page=${currentPage}&likesAvg=${likesAvg}&reviewsAvg=${reviewsAvg}`;
             try {
                 const response = await fetch(url);
                 const data = await response.json();
 
-                const container = document.getElementById('results');
-                container.innerHTML = `
-              <table class="table table-bordered table-hover">
-                <thead class="table-light">
-                  <tr>
-                    <th>#</th>
-                    <th>ISBN</th>
-                    <th>Title</th>
-                    <th>Authors</th>
-                    <th>Publisher</th>
-                  </tr>
-                </thead>
-                <tbody id="bookRows"></tbody>
-              </table>
-            `;
+                let tbody;
+                if (currentPage === 1) {
+                    document.getElementById('results').innerHTML = `
+                <div class="table-scroll">
+                  <table class="table table-bordered table-hover">
+                    <thead class="table-light">
+                      <tr>
+                        <th>#</th>
+                        <th>ISBN</th>
+                        <th>Title</th>
+                        <th>Authors</th>
+                        <th>Publisher</th>
+                      </tr>
+                    </thead>
+                    <tbody id="bookRows"></tbody>
+                  </table>
+                  <div id="scroll-trigger"></div>
+                </div>
+              `;
+                    tbody = document.getElementById('bookRows');
+                    attachObserver();
+                } else {
+                    tbody = document.getElementById('bookRows');
+                }
 
-                const tbody = document.getElementById('bookRows');
-                data.forEach(book => {
-                    console.log(book);
+                data.forEach((book, i) => {
+                    const globalId = `book-${(currentPage - 1) * 20 + i}`;
 
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                <td><a href="#" class="row-trigger" data-id="${book.index}">${book.index}</a></td>
-                <td><a href="#" class="row-trigger" data-id="${book.index}">${book.isbn}</a></td>
-                <td><a href="#" class="row-trigger" data-id="${book.index}">${book.title}</a></td>
-                <td><a href="#" class="row-trigger" data-id="${book.index}">${book.authors.join(', ')}</a></td>
-                <td><a href="#" class="row-trigger" data-id="${book.index}">${book.publisher}</a></td>
+                <td><a href="#" class="row-trigger" data-id="${globalId}">${(currentPage - 1) * 20 + i + 1}</a></td>
+                <td><a href="#" class="row-trigger" data-id="${globalId}">${book.isbn}</a></td>
+                <td><a href="#" class="row-trigger" data-id="${globalId}">${book.title}</a></td>
+                <td><a href="#" class="row-trigger" data-id="${globalId}">${book.authors.join(', ')}</a></td>
+                <td><a href="#" class="row-trigger" data-id="${globalId}">${book.publisher}</a></td>
               `;
                     tbody.appendChild(row);
 
-                    // добавляем строку с деталями
                     const detailsRow = document.createElement('tr');
                     detailsRow.className = 'details-row';
-                    detailsRow.dataset.id = book.index;
+                    detailsRow.dataset.id = globalId;
                     detailsRow.innerHTML = `
                 <td colspan="5">
-                  <strong>🏷 Genre:</strong> ${book.genre || 'Unknown'}<br>
-                  <strong>📖 Description:</strong> ${book.description || 'No description'}<br>
-                  <strong>👍 Likes:</strong> ${book.likes}<br>
-                  <strong>📝 Reviews:</strong> ${book.reviews?.join(', ') || 'No reviews'}
+                  <div class="details-container">
+                    <p><strong>🏷 Genre:</strong> ${book.genre || 'Unknown'}</p>
+                    <p><strong>📖 Description:</strong> ${book.description || 'No description'}</p>
+                    <p><strong><i class="fa-solid fa-heart" style="color: #ff0000;"></i> Likes:</strong> ${book.likes}</p>
+                    <p><strong>📝 Reviews:</strong> ${book.reviews.length}</p>
+                    ${book.reviews && book.reviews.length > 0
+                            ? book.reviews.map(r => `
+                          <div class="review">
+                            <em>${r.author}</em> <small>(${new Date(r.date).toLocaleDateString()})</small><br>
+                            <span>${r.text}</span>
+                            <div class="rating">⭐ ${r.rating}/5</div>
+                          </div>
+                        `).join('')
+                            : '<div class="no-reviews">No reviews</div>'}
+                  </div>
                 </td>
               `;
                     tbody.appendChild(detailsRow);
                 });
 
+                currentPage++;
             } catch (error) {
-                document.getElementById('results').innerHTML = `<p style="color:red;">Ошибка загрузки: ${error}</p>`;
+                document.getElementById('results').innerHTML = `<p class="text-danger">Ошибка загрузки: ${error}</p>`;
+            } finally {
+                isLoading = false;
             }
         }
+
+        function attachObserver() {
+            const trigger = document.getElementById('scroll-trigger');
+            const scrollContainer = document.querySelector('.table-scroll');
+            if (!trigger || !scrollContainer) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    loadBooks();
+                }
+            }, {
+                root: scrollContainer,
+                rootMargin: '100px',
+                threshold: 0.1
+            });
+
+            observer.observe(trigger);
+        }
+
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            currentPage = 1;
+            document.getElementById('results').innerHTML = '';
+            loadBooks();
+        });
 
         document.addEventListener('click', function (e) {
             const link = e.target.closest('.row-trigger');
@@ -141,6 +248,10 @@
             if (detailsRow) {
                 detailsRow.style.display = detailsRow.style.display === 'none' ? 'table-row' : 'none';
             }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadBooks();
         });
     </script>
 </body>

@@ -2,7 +2,12 @@
 {
     public class LocalizationData
     {
+        public List<string> TitleTemplates { get; set; } = new();
+        public List<string> TitleAdjectives { get; set; } = new();
+        public List<string> TitleNouns { get; set; } = new();
+
         public List<string> Genres { get; set; }
+
         public List<string> Titles { get; set; }
         public List<string> FirstNames { get; set; }
         public List<string> LastNames { get; set; }

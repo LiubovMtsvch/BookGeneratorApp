@@ -3,7 +3,7 @@ using BookGeneratorApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BookGeneratorApp.Models;
+
 public class BookGenerator
 {
     private readonly LocalizationData _locData;
@@ -11,54 +11,86 @@ public class BookGenerator
     private readonly int _page;
     private readonly double _likesAvg;
     private readonly double _reviewsAvg;
+    private readonly ReviewGenerator _reviewGenerator;
+    private readonly int _seedHash;
 
     public BookGenerator(string seed, string region, int page, double likesAvg, double reviewsAvg, LocalizationService localization)
     {
+        _seedHash = seed.GetHashCode();
         _locData = localization.Load(region);
-        _rnd = new Random(seed.GetHashCode() + page); // Предсказуемый генератор
+        _rnd = new Random(_seedHash + page); // генератор зависит от seed
         _page = page;
         _likesAvg = likesAvg;
         _reviewsAvg = reviewsAvg;
+        _reviewGenerator = new ReviewGenerator();
     }
 
-    public List<Book> GenerateBooks()
+    public List<Book> GenerateBooks(int count = 20)
     {
         var books = new List<Book>();
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 0; i < count; i++)
         {
-            int bookSeed = (_page - 1) * 10 + i + 1;
+            int bookSeed = _seedHash + (_page - 1) * 100 + i;
 
-            var title = _locData.Titles[_rnd.Next(_locData.Titles.Count)];
+            var title = GenerateStructuredTitle(bookSeed);
+
             var publisher = _locData.Publishers[_rnd.Next(_locData.Publishers.Count)];
 
             var authorCount = _rnd.Next(1, 3);
             var authors = Enumerable.Range(0, authorCount)
-                .Select(_ => $"{_locData.FirstNames[_rnd.Next(_locData.FirstNames.Count)]} {_locData.LastNames[_rnd.Next(_locData.LastNames.Count)]}")
-                .ToList();
+                .Select(_ =>
+                {
+                    var first = _locData.FirstNames[_rnd.Next(_locData.FirstNames.Count)];
+                    var last = _locData.LastNames[_rnd.Next(_locData.LastNames.Count)];
+                    return $"{first} {last}";
+                }).ToList();
 
             int likes = GenerateLikes(bookSeed, _likesAvg);
-            var reviews = GenerateReviews(bookSeed, _reviewsAvg);
+            var reviews = _reviewGenerator.Generate(_reviewsAvg, bookSeed, _locData.LanguageCode.Substring(0, 2));
+
             var genre = _locData.Genres[_rnd.Next(_locData.Genres.Count)];
+            var background = _locData.CoverBackgrounds[_rnd.Next(_locData.CoverBackgrounds.Count)];
+
             var book = new Book
             {
-                Index = bookSeed,
-                ISBN = GenerateFakeIsbn(),
+                Index = i + 1,
+                ISBN = GenerateFakeIsbn(bookSeed),
                 Title = title,
                 Publisher = publisher,
                 Authors = authors,
                 Likes = likes,
                 Reviews = reviews,
                 Genre = genre,
-                CoverBackground = _locData.CoverBackgrounds[_rnd.Next(_locData.CoverBackgrounds.Count)]
+                CoverBackground = background
             };
-          
 
             books.Add(book);
         }
 
         return books;
     }
+    private string GenerateStructuredTitle(int bookSeed)
+    {
+        var rng = new Random(bookSeed + 99); // seed
+        var templates = _locData.TitleTemplates;
+        var adjectives = _locData.TitleAdjectives;
+        var nouns = _locData.TitleNouns;
+
+        if (templates.Count == 0 || nouns.Count == 0)
+            return "Başlıksız Kitap";
+
+        var template = templates[rng.Next(templates.Count)];
+        var noun = nouns[rng.Next(nouns.Count)];
+        var adjective = adjectives.Count > 0 ? adjectives[rng.Next(adjectives.Count)] : null;
+
+        string title = template
+            .Replace("{Adjective}", adjective ?? "")
+            .Replace("{Noun}", noun);
+
+        return title.Trim();
+    }
+
 
     private int GenerateLikes(int bookSeed, double avgLikes)
     {
@@ -68,42 +100,9 @@ public class BookGenerator
         return baseLikes + (likeRng.NextDouble() < extraProbability ? 1 : 0);
     }
 
-    private List<Review> GenerateReviews(int bookSeed, double avgReviews)
+    private string GenerateFakeIsbn(int seed)
     {
-        var rng = new Random(bookSeed + 2);
-        int count = 0;
-
-        if (avgReviews < 1.0)
-        {
-            if (rng.NextDouble() < avgReviews)
-                count = 1;
-        }
-        else
-        {
-            count = (int)Math.Round(avgReviews);
-        }
-
-        var reviews = new List<Review>();
-
-        for (int i = 0; i < count; i++)
-        {
-            var review = new Review
-            {
-                Author = $"{_locData.FirstNames[rng.Next(_locData.FirstNames.Count)]} {_locData.LastNames[rng.Next(_locData.LastNames.Count)]}",
-                Text = _locData.ReviewComments[rng.Next(_locData.ReviewComments.Count)],
-                Rating = rng.Next(1, 6),
-                Date = DateTime.Today.AddDays(-rng.Next(30, 700)), // случайная дата за последние ~2 года
-                LanguageCode = _locData.LanguageCode // если ты добавила это свойство
-            };
-            reviews.Add(review);
-
-        }
-
-        return reviews;
-    }
-
-    private string GenerateFakeIsbn()
-    {
+        var isbnRng = new Random(seed);
         return $"{_rnd.Next(100, 999)}-{_rnd.Next(1000, 9999)}-{_rnd.Next(100, 999)}";
     }
 }

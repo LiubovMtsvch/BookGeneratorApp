@@ -1,4 +1,33 @@
 ﻿{
+
+  "TitleTemplates": [
+    "{Adjective} {Noun}",
+    "Bir {Noun} Hikâyesi",
+    "{Noun} Üzerine Düşünceler",
+    "Zamanın {Noun}",
+    "Öteki {Noun}"
+  ],
+  "TitleAdjectives": [
+    "Sessiz",
+    "Son",
+    "Kaybolmuş",
+    "Gizli",
+    "Işıltılı",
+    "Karanlık",
+    "Yalnız",
+    "Rüya"
+  ],
+  "TitleNouns": [
+    "Kalpler",
+    "Gölge",
+    "Yolculuk",
+    "Hayaller",
+    "Zaman",
+    "Gece",
+    "Kelimeler",
+    "Dünya"
+  ],
+
   "Genres": [
     "Tarihî kurgu",
     "Dram",

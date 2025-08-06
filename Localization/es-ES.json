@@ -1,4 +1,30 @@
 ﻿{
+  "TitleTemplates": [
+    "{Adjective} {Noun}",
+    "Una historia de {Noun}",
+    "{Noun} y sus secretos",
+    "Las voces de {Noun}",
+    "Entre {Noun} y silencio"
+  ],
+  "TitleAdjectives": [
+    "Oscuro",
+    "Olvidado",
+    "Misterioso",
+    "Silencioso",
+    "Brillante",
+    "Lejano",
+    "Secreto"
+  ],
+  "TitleNouns": [
+    "Sombras",
+    "Tiempo",
+    "Sueños",
+    "Verdad",
+    "Luz",
+    "Destino",
+    "Recuerdos"
+  ],
+
   "Genres": [
     "Ficción histórica",
     "Drama",
