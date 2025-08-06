@@ -1,0 +1,42 @@
+﻿.book-cover {
+    width: 160px;
+    height: 240px;
+    position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: white;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 15px;
+    overflow: hidden;
+    padding: 12px 12px 12px 20px; 
+}
+
+
+.book-cover::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 8px;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    z-index: 1;
+}
+
+
+
+
+.cover-text h5 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.cover-text p {
+    margin: 4px 0 0;
+    font-size: 10px;
+}
